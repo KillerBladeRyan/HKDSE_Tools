@@ -26,6 +26,7 @@ let cutoffData;
 // Populate select elements with options
 function populateSelect(elementId, options) {
     const select = document.getElementById(elementId);
+    const currentYear = new Date().getFullYear();
     
     let optionsArray = Object.entries(options);
     
@@ -34,9 +35,9 @@ function populateSelect(elementId, options) {
         
         optionsArray = [
             ...(includeHighest ? [['highest', '最高分數線']] : []),
-            ...Array.from({ length: 11 }, (_, i) => [
-                2023 - i,
-                2023 - i
+            ...Array.from({ length: currentYear - 2013 }, (_, i) => [
+                (currentYear - 1 - i).toString(),
+                (currentYear - 1 - i).toString()
             ])
         ];
     }
@@ -226,11 +227,12 @@ function calculateGrade() {
 // Initialize the page when DOM content is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize page elements
+    const currentYear = new Date().getFullYear();
     const yearOptions = {
         ...Object.fromEntries(
-            Array.from({ length: 11 }, (_, i) => [
-                2023 - i,
-                2023 - i
+            Array.from({ length: currentYear - 2013 }, (_, i) => [
+                (currentYear - 1 - i).toString(),
+                (currentYear - 1 - i).toString()
             ])
         )
     };
@@ -291,7 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Update countdown timer
 function updateCountdown() {
-    const examDate = new Date("2025-04-01T00:00:00").getTime(); // Assuming exam date is April 1, 2025
+    const examDate = new Date("2025-04-01T00:00:00").getTime(); // HKDSE exam date is April 1, 2025
     const now = new Date().getTime();
     const distance = examDate - now;
 
