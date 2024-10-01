@@ -26,7 +26,22 @@ let cutoffData;
 // Populate select elements with options
 function populateSelect(elementId, options) {
     const select = document.getElementById(elementId);
-    select.innerHTML = Object.entries(options).map(([value, text]) => 
+    
+    let optionsArray = Object.entries(options);
+    
+    if (elementId.includes('year')) {
+        const includeHighest = elementId === 'year';
+        
+        optionsArray = [
+            ...(includeHighest ? [['highest', '最高分數線']] : []),
+            ...Array.from({ length: 11 }, (_, i) => [
+                2023 - i,
+                2023 - i
+            ])
+        ];
+    }
+    
+    select.innerHTML = optionsArray.map(([value, text]) => 
         `<option value="${value}">${text}</option>`
     ).join('');
 }
@@ -211,19 +226,21 @@ function calculateGrade() {
 // Initialize the page when DOM content is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize page elements
-    const years = [...Array.from({ length: 11 }, (_, i) => 2023 - i), 'highest'];
-    const yearOptions = Object.fromEntries(years.map(year => {
-        if (year === 'highest') return [year, '最高分數線'];
-        return [year, year.toString()];
-    }));
+    const currentYear = new Date().getFullYear();
+    const yearOptions = {
+        ...Object.fromEntries(
+            Array.from({ length: currentYear - 2012 + 1 }, (_, i) => [
+                (currentYear - i).toString(),
+                (currentYear - i).toString()
+            ])
+        )
+    };
     
     // Populate select elements
-    populateSelect('year', yearOptions);
-    
-    const normalYearOptions = Object.fromEntries(years.filter(year => year !== 'highest' && year !== '------').map(year => [year, year.toString()]));
-    populateSelect('search-answer-year', normalYearOptions);
-    populateSelect('paper-year', normalYearOptions);
-    populateSelect('video-year', normalYearOptions);
+    populateSelect('year', { highest: '最高分數線', ...yearOptions });
+    populateSelect('search-answer-year', yearOptions);
+    populateSelect('paper-year', yearOptions);
+    populateSelect('video-year', yearOptions);
     populateSelect('subject', subjects);
     populateSelect('search-answer-subject', subjects);
     populateSelect('paper-subject', subjects);
