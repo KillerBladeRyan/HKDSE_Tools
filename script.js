@@ -226,12 +226,11 @@ function calculateGrade() {
 // Initialize the page when DOM content is loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize page elements
-    const currentYear = new Date().getFullYear();
     const yearOptions = {
         ...Object.fromEntries(
-            Array.from({ length: currentYear - 2012 + 1 }, (_, i) => [
-                (currentYear - i).toString(),
-                (currentYear - i).toString()
+            Array.from({ length: 11 }, (_, i) => [
+                2023 - i,
+                2023 - i
             ])
         )
     };
