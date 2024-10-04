@@ -17,7 +17,7 @@ const paperOptions = {
 // Define full marks for specific subjects and papers
 const paperFullMarks = {
     // chi: { p1: 80, p2: 103 },
-    //eng: { p1: 84, p2: 21, p3: 105, p4: 56 },
+    // eng: { p1: 84, p2: 21, p3: 105, p4: 56 },
     default: 100
 };
 
